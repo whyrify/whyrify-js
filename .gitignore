@@ -1,0 +1,17 @@
+# OS
+.DS_STORE
+
+# Editor/IDE
+.idea/
+.vscode/
+.zed/
+
+
+# Node
+node_modules/
+*-lock.json
+*-lock.yaml
+coverage
+
+# Output
+dist/

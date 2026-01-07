@@ -1,0 +1,41 @@
+{
+    "name": "whyrify.integration",
+    "version": "1.0.0",
+    "description": "Whyrify fault injection engine",
+    "license": "MIT",
+    "author": "Yaro",
+    "scripts": {
+        "build": "tsup",
+        "watch": "tsup --watch",
+        "ci": "npm run build",
+        "lint": "oxlint",
+        "lint:fix": "oxlint --fix",
+        "format": "oxfmt",
+        "format:check": "oxfmt --check",
+        "test": "vitest",
+        "coverage": "vitest run --coverage"
+    },
+    "devDependencies": {
+        "@vitest/coverage-v8": "4.0.16",
+        "oxfmt": "^0.23.0",
+        "oxlint": "^1.38.0",
+        "tsup": "^8.5.0",
+        "typescript": "^5.9.3",
+        "vitest": "^4.0.16"
+    },
+    "tsup": {
+        "entry": [
+            "src/whyrify.ts"
+        ],
+        "splitting": false,
+        "sourcemap": false,
+        "clean": true,
+        "minify": true,
+        "format": [
+            "esm",
+            "cjs",
+            "iife"
+        ],
+        "legacy-output": true
+    }
+}
