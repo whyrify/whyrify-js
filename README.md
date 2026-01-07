@@ -7,10 +7,10 @@ Fault injection engine.
 inject snippet to website, make it not async and load as early as you can:
 
 ```
-<script type="text/javascript" src="//s.whyrify.com/w/whyrify.min.js" />
+<script type="text/javascript" src="//s.whyrify.com/w/whyrify.js" />
 ```
 
-Now all scripts marked with `type="text/whyrify"` will run by `whyrify.min.js`, eventually fail with controlled chance.
+Now all scripts marked with `type="text/whyrify"` will run by `whyrify.js`, eventually fail with controlled chance.
 Additionally you can name the feature/attribute by adding attribute `data-feature="feature-x"`.
 
 For example:
