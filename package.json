@@ -24,9 +24,10 @@
         "vitest": "^4.0.16"
     },
     "tsup": {
-        "entry": [
-            "src/whyrify.ts"
-        ],
+        "entry": {
+            "whyrify": "src/index.ts",
+            "whyrify.min": "src/index.browser.ts"
+        },
         "splitting": false,
         "sourcemap": false,
         "clean": true,

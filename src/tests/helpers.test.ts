@@ -1,4 +1,4 @@
-import { vi, test, expect } from "vitest";
+import { expect, test, vi } from "vitest";
 import { debounce } from "../lib/utils/helpers.js";
 
 test("calling debaunced Fn multiple times should update only once", () => {

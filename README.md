@@ -24,17 +24,30 @@ For example:
 Using `WHYRIFY_CONFIG` object, you can setup reporting, and fault rate (default to 5%).
 
 ```js
-window.WHYRIFY_CONFIG = {
-    measurementId: "XXXX-XXXX-XXXX-XXXX-XXXX-XXXX",
-    chaosChance: 0.5, //0.5%
-};
+<script>
+  window.whyrify = window.whyrify || function() {
+    (window.whyrify.q = window.whyrify.q || []).push(arguments);
+  };
+  whyrify('config', 'XXXX-XXXX-XXXX-XXXX-XXXX-XXXX', 0.5);
+  window.whyrify("decide", "featureX", (result) => {
+      if(result === "control") {
+          //activate feature
+      }
+  }); //trigger conversion
+</script>
+<script type="text/javascript" src="//s.whyrify.com/w/whyrify.js" />
 ```
 
 ## Measure
 
-Finally, you can send conversion events by calling `whyrify.link`, so we can validate experiment using Bayesian stats.
+Finally, you can send conversion events by calling `whyrify('link', 'conversion')`, so we can validate experiment using Bayesian stats.
 
 ```js
-window.whyrify.link("conversion"); //trigger conversion
-window.whyrify.link("add-to-cart"); // trigger another conversion
+window.whyrify =
+    window.whyrify ||
+    function () {
+        (window.whyrify.q = window.whyrify.q || []).push(arguments);
+    };
+window.whyrify("link", "conversion"); //trigger conversion
+window.whyrify("link", "add-to-cart"); // trigger another conversion
 ```
