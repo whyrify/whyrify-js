@@ -43,7 +43,7 @@ You can also call `decide` to bucket feature manually:
       if(result === "control") {
           //activate feature
       }
-  }); //trigger conversion
+  });
 </script>
 <script type="text/javascript" src="//s.whyrify.com/w/whyrify.min.js" />
 
