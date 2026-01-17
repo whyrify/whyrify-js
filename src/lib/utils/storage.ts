@@ -24,12 +24,22 @@ export const saveFeatureState = (value: Record<string, Bucket>) => {
 };
 
 /**
+ * save session ID
+ */
+const newSessionId = () => {
+    const sessionId = id();
+    localStorage.setItem(LS_SESSION_KEY, sessionId);
+    return sessionId;
+};
+
+/**
  * return session ID
  */
 export const getSessionId = (): string => {
     try {
-        return localStorage.getItem(LS_SESSION_KEY) ?? id();
+        const sessionId = localStorage.getItem(LS_SESSION_KEY);
+        return sessionId ?? newSessionId();
     } catch {
-        return id();
+        return newSessionId();
     }
 };
