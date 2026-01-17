@@ -1,13 +1,13 @@
 import type { Bucket, WhyrifyCmd, WhyrifyQueue } from "./lib/types";
 import { Whyrify } from "./lib/whyrify";
 
+let engine: Whyrify | null = null;
 /**
  * Whyrify command queue processor
  * @param cmd - Command name ('config' | 'link' | 'decide')
  * @param args - Command arguments
  */
 const whyrify = (cmd: string, ...args: unknown[]) => {
-    let engine: Whyrify | null = null;
     const actions = {
         config: () => {
             const [measurementId, chaosChance, doNotObserveScripts] = args as [
@@ -16,10 +16,16 @@ const whyrify = (cmd: string, ...args: unknown[]) => {
                 boolean | undefined,
             ];
             if (!measurementId) {
-                console.warn(`Whyrify: missing measurementId on config command`);
+                console.warn(
+                    `Whyrify: missing measurementId on config command`,
+                );
                 return;
             }
-            engine = new Whyrify(measurementId, chaosChance, doNotObserveScripts);
+            engine = new Whyrify(
+                measurementId,
+                chaosChance,
+                doNotObserveScripts,
+            );
         },
         link: () => {
             const [event] = args as [string | undefined];
@@ -28,7 +34,9 @@ const whyrify = (cmd: string, ...args: unknown[]) => {
                 return;
             }
             if (!event) {
-                console.warn(`Whyrify: missing conversion name on link command`);
+                console.warn(
+                    `Whyrify: missing conversion name on link command`,
+                );
                 return;
             }
             engine.link(event);
@@ -43,7 +51,9 @@ const whyrify = (cmd: string, ...args: unknown[]) => {
                 return;
             }
             if (!feature || !onResult) {
-                console.warn(`Whyrify: missing required params on decide command`);
+                console.warn(
+                    `Whyrify: missing required params on decide command`,
+                );
                 return;
             }
             const result = engine.decide(feature);
@@ -51,7 +61,8 @@ const whyrify = (cmd: string, ...args: unknown[]) => {
             onResult(result);
         },
     } as const;
-    const isAvailableAction = (cmd: string): cmd is keyof typeof actions => cmd in actions;
+    const isAvailableAction = (cmd: string): cmd is keyof typeof actions =>
+        cmd in actions;
     if (isAvailableAction(cmd)) {
         actions[cmd]();
     } else {
@@ -59,14 +70,15 @@ const whyrify = (cmd: string, ...args: unknown[]) => {
     }
 };
 // Logic to execute pre-existing queue on load
-const isQueue = (instance?: WhyrifyQueue | WhyrifyCmd): instance is WhyrifyQueue => {
-    return typeof instance === "object" && instance !== null && "q" in instance;
+const isQueue = (
+    instance?: WhyrifyQueue | WhyrifyCmd,
+): instance is WhyrifyQueue => {
+    return instance !== undefined && "q" in instance;
 };
 let existingQueue: unknown[][] = [];
 if (isQueue(window.whyrify)) {
     existingQueue = window.whyrify.q;
 }
-window.whyrify = whyrify;
 for (const args of existingQueue) {
     const [cmd, ...rest] = args;
     if (typeof cmd === "string") {
@@ -75,3 +87,4 @@ for (const args of existingQueue) {
         console.warn(`Whyrify: unknown command - ${cmd}`);
     }
 }
+window.whyrify = whyrify;

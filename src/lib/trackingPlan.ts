@@ -21,6 +21,10 @@ export class TrackingPlan {
     private _sendEvent(event: AnalyticEvent) {
         fetch(this._api_endpoint, {
             method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify(event),
         });
     }
