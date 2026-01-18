@@ -46,6 +46,7 @@ You can also call `decide` to bucket feature manually:
   });
 </script>
 <script type="text/javascript" src="//s.whyrify.com/w/whyrify.min.js" />
+```
 
 
 ## Measure
@@ -58,6 +59,6 @@ window.whyrify =
     function () {
         (window.whyrify.q = window.whyrify.q || []).push(arguments);
     };
-window.whyrify("link", "conversion"); //trigger conversion
+window.whyrify("link", "conversion"); //trigger  default conversion
 window.whyrify("link", "add-to-cart"); // trigger another conversion
 ```
