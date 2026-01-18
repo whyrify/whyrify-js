@@ -1,4 +1,4 @@
-import type { Bucket, WhyrifyCmd, WhyrifyQueue } from "./lib/types";
+import type { Bucket, WhyrifyCmd } from "./lib/types";
 import { Whyrify } from "./lib/whyrify";
 
 let engine: Whyrify | null = null;
@@ -7,7 +7,7 @@ let engine: Whyrify | null = null;
  * @param cmd - Command name ('config' | 'link' | 'decide')
  * @param args - Command arguments
  */
-const whyrify = (cmd: string, ...args: unknown[]) => {
+const whyrify: WhyrifyCmd = (cmd: string, ...args: unknown[]) => {
     const actions = {
         config: () => {
             const [measurementId, chaosChance, doNotObserveScripts] = args as [
@@ -70,13 +70,8 @@ const whyrify = (cmd: string, ...args: unknown[]) => {
     }
 };
 // Logic to execute pre-existing queue on load
-const isQueue = (
-    instance?: WhyrifyQueue | WhyrifyCmd,
-): instance is WhyrifyQueue => {
-    return instance !== undefined && "q" in instance;
-};
 let existingQueue: unknown[][] = [];
-if (isQueue(window.whyrify)) {
+if (window.whyrify?.q) {
     existingQueue = window.whyrify.q;
 }
 for (const args of existingQueue) {

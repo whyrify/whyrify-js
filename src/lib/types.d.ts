@@ -1,8 +1,9 @@
-export type WhyrifyQueue = { q: unknown[][] };
-export type WhyrifyCmd = (cmd: string, ...args: unknown[]) => void;
+export type WhyrifyCmd = ((cmd: stirng, ...args: unknown[]) => void) & {
+    q?: unknown[][];
+};
 declare global {
     interface Window {
-        whyrify?: WhyrifyQueue | Whyrify;
+        whyrify?: WhyrifyCmd;
     }
 }
 
