@@ -19,7 +19,6 @@ export class Whyrify {
     _features: Record<string, Bucket> = loadFeatureState();
     /** features awaiting to be reported */
     _featureLogQueue: Record<string, Bucket> = {};
-    _makeChaos: boolean = false;
     _trackingPlan: TrackingPlan | null = null;
 
     /** debounced report features */
@@ -29,7 +28,11 @@ export class Whyrify {
         saveFeatureState(this._features);
     }, 500);
 
-    constructor(measurementId: string, chaosChance?: number, doNotObserveScripts: boolean = false) {
+    constructor(
+        measurementId: string,
+        chaosChance?: number,
+        doNotObserveScripts: boolean = false,
+    ) {
         this._trackingPlan = new TrackingPlan(measurementId);
         if (chaosChance) {
             this._chaosChance = chaosChance;
@@ -37,7 +40,6 @@ export class Whyrify {
         if (!doNotObserveScripts) {
             this.watch();
         }
-        this._makeChaos = Math.random() < this._chaosChance / 100;
     }
 
     /**
@@ -50,13 +52,11 @@ export class Whyrify {
      * decide on manual experiment
      */
     decide(feature: string): Bucket {
-        const makeChaos = this._makeChaos && Math.random() < 0.01;
+        const makeChaos = Math.random() < this._chaosChance / 100;
         const breakScript = this._features[feature] === "off" || makeChaos;
         this._features[feature] = breakScript ? "off" : "control";
         this._featureLogQueue[feature] = this._features[feature];
         if (breakScript) {
-            // break only single script
-            this._makeChaos = false;
             return "off";
         }
         return "control";
@@ -88,7 +88,8 @@ export class Whyrify {
                             (node as HTMLScriptElement).type === "text/whyrify"
                         ) {
                             const script = node as HTMLScriptElement;
-                            const featureName = getFeatureNameFromScript(script);
+                            const featureName =
+                                getFeatureNameFromScript(script);
                             const result = this.decide(featureName);
                             if (result === "control") {
                                 reinjectScript(script);
