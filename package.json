@@ -1,9 +1,9 @@
 {
-    "name": "whyrify.integration",
+    "name": "@whyrify/whyrify-js",
     "version": "1.0.0",
     "description": "Whyrify fault injection engine",
     "license": "MIT",
-    "author": "Yaro",
+    "author": "Yaro Bihus",
     "scripts": {
         "build": "tsup",
         "watch": "tsup --watch",
@@ -14,6 +14,9 @@
         "format:check": "oxfmt --check",
         "test": "vitest",
         "coverage": "vitest run --coverage"
+    },
+    "publishConfig": {
+        "access": "public"
     },
     "devDependencies": {
         "@vitest/coverage-v8": "4.0.16",
