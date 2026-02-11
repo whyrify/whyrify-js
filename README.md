@@ -1,6 +1,6 @@
 # Whyrify
 
-Fault injection engine.
+Fault injection engine for [whyrify.com](whyrify.com)
 
 ## Inject and configure
 
@@ -61,4 +61,28 @@ window.whyrify =
     };
 window.whyrify("link", "conversion"); //trigger  default conversion
 window.whyrify("link", "add-to-cart"); // trigger another conversion
+```
+
+## How to use as NPM package
+
+Install the package:
+```bash
+npm i @whyrify/whyrify-js
+```
+
+Basic usage:
+```javascript
+import { Whyrify } from "@whyrify/whyrify-js";
+
+const faultEngine = new Whyrify(
+    "XXXX-XXXX-XXXX-XXXX-XXXX-XXXX", // measurement id
+    50, // 50% chance to fail
+    true, //do not watch for another scripts
+);
+if (faultEngine.decide("fault-injection-hero") === "control") {
+    console.log("Control");
+} else {
+    console.log("Fault");
+}
+faultEngine.link("conversion");
 ```

@@ -3,12 +3,38 @@ import { id } from "./id";
 
 const LS_FEATURES_KEY = "WHYRIFY_FEATURES";
 const LS_SESSION_KEY = "WHYRIFY_SESSION_ID";
+
+// In-memory fallback for non-browser environments
+const memoryStore: { [key: string]: string } = {};
+
+const storage = {
+    getItem(key: string): string | null {
+        if (typeof localStorage === "undefined") {
+            return memoryStore[key] ?? null;
+        }
+        try {
+            return localStorage.getItem(key);
+        } catch {
+            return null;
+        }
+    },
+    setItem(key: string, value: string): void {
+        if (typeof localStorage === "undefined") {
+            memoryStore[key] = value;
+            return;
+        }
+        try {
+            localStorage.setItem(key, value);
+        } catch {}
+    },
+};
+
 /**
  * load stored features
  */
 export const loadFeatureState = (): Record<string, Bucket> => {
     try {
-        return JSON.parse(localStorage.getItem(LS_FEATURES_KEY) ?? "{}");
+        return JSON.parse(storage.getItem(LS_FEATURES_KEY) ?? "{}");
     } catch {
         return {};
     }
@@ -19,7 +45,7 @@ export const loadFeatureState = (): Record<string, Bucket> => {
  */
 export const saveFeatureState = (value: Record<string, Bucket>) => {
     try {
-        localStorage.setItem(LS_FEATURES_KEY, JSON.stringify(value));
+        storage.setItem(LS_FEATURES_KEY, JSON.stringify(value));
     } catch {}
 };
 
@@ -28,7 +54,7 @@ export const saveFeatureState = (value: Record<string, Bucket>) => {
  */
 const newSessionId = () => {
     const sessionId = id();
-    localStorage.setItem(LS_SESSION_KEY, sessionId);
+    storage.setItem(LS_SESSION_KEY, sessionId);
     return sessionId;
 };
 
@@ -37,7 +63,7 @@ const newSessionId = () => {
  */
 export const getSessionId = (): string => {
     try {
-        const sessionId = localStorage.getItem(LS_SESSION_KEY);
+        const sessionId = storage.getItem(LS_SESSION_KEY);
         return sessionId ?? newSessionId();
     } catch {
         return newSessionId();

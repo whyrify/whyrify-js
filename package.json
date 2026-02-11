@@ -1,6 +1,6 @@
 {
     "name": "@whyrify/whyrify-js",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Whyrify fault injection engine",
     "license": "MIT",
     "author": "Yaro Bihus",
@@ -26,11 +26,18 @@
         "typescript": "^5.9.3",
         "vitest": "^4.0.16"
     },
+    "main": "./dist/whyrify.js",
+    "module": "./dist/whyrify.js",
+    "types": "./dist/whyrify.d.ts",
+    "files": [
+        "dist"
+    ],
     "tsup": {
         "entry": {
             "whyrify": "src/index.ts",
             "whyrify.min": "src/index.browser.ts"
         },
+        "dts": true,
         "splitting": false,
         "sourcemap": false,
         "clean": true,
