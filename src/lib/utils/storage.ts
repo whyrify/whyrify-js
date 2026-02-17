@@ -5,7 +5,7 @@ const LS_FEATURES_KEY = "WHYRIFY_FEATURES";
 const LS_SESSION_KEY = "WHYRIFY_SESSION_ID";
 
 // In-memory fallback for non-browser environments
-const memoryStore: { [key: string]: string } = {};
+let memoryStore: { [key: string]: string } = {};
 
 const storage = {
     getItem(key: string): string | null {
@@ -27,6 +27,17 @@ const storage = {
             localStorage.setItem(key, value);
         } catch {}
     },
+    clear(): void {
+        if (typeof localStorage === "undefined") {
+            memoryStore = {};
+            return;
+        }
+        try {
+            //we don't do localStorage.clear(); as it may contains other valuable info
+            localStorage.removeItem(LS_FEATURES_KEY);
+            localStorage.removeItem(LS_SESSION_KEY);
+        } catch {}
+    },
 };
 
 /**
@@ -46,6 +57,15 @@ export const loadFeatureState = (): Record<string, Bucket> => {
 export const saveFeatureState = (value: Record<string, Bucket>) => {
     try {
         storage.setItem(LS_FEATURES_KEY, JSON.stringify(value));
+    } catch {}
+};
+
+/**
+ * clear storage
+ */
+export const clearStorage = () => {
+    try {
+        storage.clear();
     } catch {}
 };
 

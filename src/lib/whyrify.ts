@@ -28,11 +28,7 @@ export class Whyrify {
         saveFeatureState(this._features);
     }, 500);
 
-    constructor(
-        measurementId: string,
-        chaosChance?: number,
-        doNotObserveScripts: boolean = false,
-    ) {
+    constructor(measurementId: string, chaosChance?: number, doNotObserveScripts: boolean = false) {
         this._trackingPlan = new TrackingPlan(measurementId);
         if (chaosChance) {
             this._chaosChance = chaosChance;
@@ -88,8 +84,7 @@ export class Whyrify {
                             (node as HTMLScriptElement).type === "text/whyrify"
                         ) {
                             const script = node as HTMLScriptElement;
-                            const featureName =
-                                getFeatureNameFromScript(script);
+                            const featureName = getFeatureNameFromScript(script);
                             const result = this.decide(featureName);
                             if (result === "control") {
                                 reinjectScript(script);

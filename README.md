@@ -1,5 +1,7 @@
 # Whyrify
 
+![Static Badge](https://img.shields.io/badge/build-passing-brightgreen)  ![NPM Version](https://img.shields.io/npm/v/%40whyrify%2Fwhyrify-js)  ![NPM Downloads](https://img.shields.io/npm/dy/%40whyrify%2Fwhyrify-js) ![Static Badge](https://img.shields.io/badge/coverage-65%25-orange)
+
 Fault injection engine for [whyrify.com](whyrify.com)
 
 ## Inject and configure
@@ -34,6 +36,7 @@ For example:
 ```
 
 You can also call `decide` to bucket feature manually:
+
 ```js
 <script>
   window.whyrify = window.whyrify || function() {
@@ -47,7 +50,6 @@ You can also call `decide` to bucket feature manually:
 </script>
 <script type="text/javascript" src="//s.whyrify.com/w/whyrify.min.js" />
 ```
-
 
 ## Measure
 
@@ -66,11 +68,13 @@ window.whyrify("link", "add-to-cart"); // trigger another conversion
 ## How to use as NPM package
 
 Install the package:
+
 ```bash
 npm i @whyrify/whyrify-js
 ```
 
 Basic usage:
+
 ```javascript
 import { Whyrify } from "@whyrify/whyrify-js";
 
@@ -84,5 +88,8 @@ if (faultEngine.decide("fault-injection-hero") === "control") {
 } else {
     console.log("Fault");
 }
+//report all features
+faultEngine.reportFeatures();
+//report conversion
 faultEngine.link("conversion");
 ```

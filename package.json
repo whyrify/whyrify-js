@@ -4,6 +4,15 @@
     "description": "Whyrify fault injection engine",
     "license": "MIT",
     "author": "Yaro Bihus",
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/whyrify.js",
+    "module": "./dist/whyrify.js",
+    "types": "./dist/whyrify.d.ts",
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "build": "tsup",
         "watch": "tsup --watch",
@@ -15,23 +24,15 @@
         "test": "vitest",
         "coverage": "vitest run --coverage"
     },
-    "publishConfig": {
-        "access": "public"
-    },
     "devDependencies": {
         "@vitest/coverage-v8": "4.0.16",
+        "jsdom": "^28.1.0",
         "oxfmt": "^0.23.0",
         "oxlint": "^1.38.0",
         "tsup": "^8.5.0",
         "typescript": "^5.9.3",
         "vitest": "^4.0.16"
     },
-    "main": "./dist/whyrify.js",
-    "module": "./dist/whyrify.js",
-    "types": "./dist/whyrify.d.ts",
-    "files": [
-        "dist"
-    ],
     "tsup": {
         "entry": {
             "whyrify": "src/index.ts",

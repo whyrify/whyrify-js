@@ -16,16 +16,10 @@ const whyrify: WhyrifyCmd = (cmd: string, ...args: unknown[]) => {
                 boolean | undefined,
             ];
             if (!measurementId) {
-                console.warn(
-                    `Whyrify: missing measurementId on config command`,
-                );
+                console.warn(`Whyrify: missing measurementId on config command`);
                 return;
             }
-            engine = new Whyrify(
-                measurementId,
-                chaosChance,
-                doNotObserveScripts,
-            );
+            engine = new Whyrify(measurementId, chaosChance, doNotObserveScripts);
         },
         link: () => {
             const [event] = args as [string | undefined];
@@ -34,9 +28,7 @@ const whyrify: WhyrifyCmd = (cmd: string, ...args: unknown[]) => {
                 return;
             }
             if (!event) {
-                console.warn(
-                    `Whyrify: missing conversion name on link command`,
-                );
+                console.warn(`Whyrify: missing conversion name on link command`);
                 return;
             }
             engine.link(event);
@@ -51,9 +43,7 @@ const whyrify: WhyrifyCmd = (cmd: string, ...args: unknown[]) => {
                 return;
             }
             if (!feature || !onResult) {
-                console.warn(
-                    `Whyrify: missing required params on decide command`,
-                );
+                console.warn(`Whyrify: missing required params on decide command`);
                 return;
             }
             const result = engine.decide(feature);
@@ -61,8 +51,7 @@ const whyrify: WhyrifyCmd = (cmd: string, ...args: unknown[]) => {
             onResult(result);
         },
     } as const;
-    const isAvailableAction = (cmd: string): cmd is keyof typeof actions =>
-        cmd in actions;
+    const isAvailableAction = (cmd: string): cmd is keyof typeof actions => cmd in actions;
     if (isAvailableAction(cmd)) {
         actions[cmd]();
     } else {

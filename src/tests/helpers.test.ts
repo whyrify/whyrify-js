@@ -1,29 +1,29 @@
 import { expect, test, vi } from "vitest";
 import { debounce } from "../lib/utils/helpers.js";
 
-test("calling debaunced Fn multiple times should update only once", () => {
+test("calling debounced Fn multiple times should update only once", () => {
     vi.useFakeTimers();
     let i = 0;
     const fn = () => i++;
-    const debauncedFn = debounce(fn);
-    debauncedFn();
-    debauncedFn();
-    debauncedFn();
+    const debouncedFn = debounce(fn);
+    debouncedFn();
+    debouncedFn();
+    debouncedFn();
     vi.runAllTimers();
     expect(i).toBe(1);
     vi.useRealTimers();
 });
 
-test("calling debaunced Fn with delay should work", () => {
+test("calling debounced Fn with delay should work", () => {
     vi.useFakeTimers();
     let i = 0;
     const fn = () => i++;
-    const debauncedFn = debounce(fn, 10);
-    debauncedFn();
+    const debouncedFn = debounce(fn, 10);
+    debouncedFn();
     vi.advanceTimersByTime(20);
-    debauncedFn();
+    debouncedFn();
     vi.advanceTimersByTime(20);
-    debauncedFn();
+    debouncedFn();
     vi.runAllTimers();
     expect(i).toBe(3);
     vi.useRealTimers();
