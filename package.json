@@ -1,6 +1,6 @@
 {
     "name": "@whyrify/whyrify-js",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Whyrify fault injection engine",
     "license": "MIT",
     "author": "Yaro Bihus",
