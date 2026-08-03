@@ -30,7 +30,7 @@ export class Whyrify {
 
     constructor(measurementId: string, chaosChance?: number, doNotObserveScripts: boolean = false) {
         this._trackingPlan = new TrackingPlan(measurementId);
-        if (chaosChance) {
+        if (chaosChance !== undefined) {
             this._chaosChance = chaosChance;
         }
         if (!doNotObserveScripts) {
@@ -48,14 +48,12 @@ export class Whyrify {
      * decide on manual experiment
      */
     decide(feature: string): Bucket {
-        const makeChaos = Math.random() < this._chaosChance / 100;
-        const breakScript = this._features[feature] === "off" || makeChaos;
-        this._features[feature] = breakScript ? "off" : "control";
-        this._featureLogQueue[feature] = this._features[feature];
-        if (breakScript) {
-            return "off";
+        if (!this._features[feature]) {
+            const makeChaos = Math.random() < this._chaosChance / 100;
+            this._features[feature] = makeChaos ? "off" : "control";
         }
-        return "control";
+        this._featureLogQueue[feature] = this._features[feature];
+        return this._features[feature];
     }
     /**
      * watch type="text/whyrify" scripts and and inject faults into them
